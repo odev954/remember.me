@@ -21,6 +21,7 @@
         "@types/aws-lambda": "^8.10.109",
         "@types/node": "^18.11.18",
         "@types/webpack": "^5.28.0",
-        "aws-amplify": "^5.0.8"
+        "aws-amplify": "^5.0.8",
+        "aws-cdk-lib": "^2.58.1"
     }
 }
