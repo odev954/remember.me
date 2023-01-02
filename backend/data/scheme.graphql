@@ -1,0 +1,7 @@
+type Note {
+	id: ID!
+	title: String!
+	content: String!
+	created_at: AWSTimestamp!
+	updated_at: AWSTimestamp
+}
