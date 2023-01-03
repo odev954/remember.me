@@ -1,11 +1,12 @@
 import * as aws from 'aws-sdk';
 import Note from 'src/common/note';
+import { Result } from 'src/common/result';
 import { StatusCodes } from 'src/common/statusCodes';
 
-export default async function createNote(
+export default async function updateNote(
   database: aws.DynamoDB.DocumentClient,
   note: Note,
-): Promise<StatusCodes> {
+): Promise<Result> {
   const params = {
     TableName: process.env.NOTES_TABLE,
     Key: {
@@ -20,9 +21,9 @@ export default async function createNote(
 
   try {
     await database.update(params).promise();
-    return StatusCodes.Success;
+    return { status: StatusCodes.Success };
   } catch (error) {
     console.log('note update failed, aborted by db client. cause: ', error);
-    return StatusCodes.Failure;
+    return { status: StatusCodes.Failure };
   }
 }

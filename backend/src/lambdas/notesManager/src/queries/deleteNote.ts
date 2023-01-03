@@ -1,10 +1,11 @@
 import * as aws from 'aws-sdk';
+import { Result } from 'src/common/result';
 import { StatusCodes } from 'src/common/statusCodes';
 
 export default async function deleteNote(
   database: aws.DynamoDB.DocumentClient,
   noteId: string,
-): Promise<StatusCodes> {
+): Promise<Result> {
   const params = {
     TableName: process.env.NOTES_TABLE,
     Key: {
@@ -14,9 +15,9 @@ export default async function deleteNote(
 
   try {
     await database.delete(params).promise();
-    return StatusCodes.Success;
+    return { status: StatusCodes.Success };
   } catch (error) {
     console.log('note deletion failed, aborted by db client. cause: ', error);
-    return StatusCodes.Failure;
+    return { status: StatusCodes.Failure };
   }
 }
