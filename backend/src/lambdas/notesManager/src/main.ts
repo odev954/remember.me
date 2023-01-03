@@ -1,8 +1,9 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { Context } from 'aws-lambda';
+import { proxy, Response } from 'aws-serverless-express';
+import { NestBootstrapper } from './bootstrapper';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+export async function handler(event: any, context: Context): Promise<Response> {
+  const bootstrapper = new NestBootstrapper();
+  const server = await bootstrapper.bootstrap();
+  return proxy(server, event, context, 'PROMISE').promise;
 }
-bootstrap();
