@@ -2,11 +2,13 @@ import * as aws from 'aws-sdk';
 import Note from 'src/common/note';
 import { Result } from 'src/common/result';
 import { StatusCodes } from 'src/common/statusCodes';
+import { v4 as uuid } from 'uuid';
 
 export default async function createNote(
   database: aws.DynamoDB.DocumentClient,
   note: Note,
 ): Promise<Result> {
+  note.id = uuid();
   const params = {
     TableName: process.env.NOTES_TABLE,
     Item: note,
