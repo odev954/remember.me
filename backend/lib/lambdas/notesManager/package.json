@@ -18,6 +18,8 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@types/aws-lambda": "^8.10.109",
+    "@types/aws-serverless-express": "^3.3.5",
     "@types/uuid": "^9.0.0",
     "aws-lambda": "^1.0.7",
     "aws-serverless-express": "^3.4.0",
