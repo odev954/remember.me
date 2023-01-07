@@ -9,6 +9,7 @@ export default async function createNote(
   note: Note,
 ): Promise<Result> {
   note.id = uuid();
+  note.created_at = Math.floor(Date.now() / 1000); //set time to unix epoch
   const params = {
     TableName: process.env.NOTES_TABLE,
     Item: note,

@@ -8,12 +8,19 @@ import {
 import * as apigateway from "@aws-cdk/aws-apigateway";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as path from "path";
-import * as appsync from "@aws-cdk/aws-appsync";
 import * as dynamodb from "@aws-cdk/aws-dynamodb";
 
 export default class AppStack extends Stack {
 	constructor(scope: Construct, id: string, props?: StackProps) {
 		super(scope, id, props);
+        
+        const notesTable = new dynamodb.Table(this, "NotesTable", {
+            billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+            partitionKey: {
+                name: "id",
+                type: dynamodb.AttributeType.STRING,
+            },
+        });
 
 		const notesManagerFunction = new lambda.Function(this, "NotesManager", {
 			runtime: lambda.Runtime.NODEJS_16_X,
@@ -24,45 +31,7 @@ export default class AppStack extends Stack {
 		});
 
 		const rest = new apigateway.RestApi(this, "NotesApi");
-		const graphql = new appsync.GraphqlApi(this, "Api", {
-			name: "cdk-notes-api",
-			schema: appsync.Schema.fromAsset("../data/scheme.graphql"),
-			xrayEnabled: true,
-		});
-
-		const datasource = graphql.addLambdaDataSource(
-			"notesManagerDS",
-			notesManagerFunction
-		);
-
-		const notesTable = new dynamodb.Table(this, "NotesTable", {
-			billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-			partitionKey: {
-				name: "id",
-				type: dynamodb.AttributeType.STRING,
-			},
-		});
-
-		datasource.createResolver({
-			typeName: "Mutation",
-			fieldName: "createNote",
-		});
-
-		datasource.createResolver({
-			typeName: "Mutation",
-			fieldName: "deleteNote",
-		});
-
-		datasource.createResolver({
-			typeName: "Mutation",
-			fieldName: "updateNote",
-		});
-
-		datasource.createResolver({
-			typeName: "Query",
-			fieldName: "getNotes",
-		});
-
+		
 		notesTable.grantFullAccess(notesManagerFunction);
 		notesManagerFunction.addEnvironment(
 			"NOTES_TABLE",
