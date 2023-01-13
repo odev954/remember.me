@@ -4,4 +4,6 @@ COPY package.json nest-cli.json tsconfig.build.json tsconfig.json src/ ${LAMBDA_
 
 RUN npm i
 
-CMD [ "nest start --watch" ]
+RUN npm run build
+
+CMD [ "dist/main.handler" ]

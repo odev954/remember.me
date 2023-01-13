@@ -1,7 +1,7 @@
 import * as aws from 'aws-sdk';
-import Note from 'src/common/note';
-import { Result } from 'src/common/result';
-import { StatusCodes } from 'src/common/statusCodes';
+import Note from '../common/note';
+import { Result } from '../common/result';
+import { StatusCodes } from '../common/statusCodes';
 
 export default async function updateNote(
     database: aws.DynamoDB.DocumentClient,
