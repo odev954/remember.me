@@ -5,8 +5,9 @@
     "cdk": "bin/cdk.js"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
+    "deploy": "cdk synth && cdk deploy",
+    "watch": "cdk synth && cdklocal deploy",
+    "build": "cdk synth",
     "test": "jest",
     "cdk": "cdk"
   },

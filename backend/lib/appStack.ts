@@ -22,11 +22,10 @@ export default class AppStack extends Stack {
             },
         });
 
-		const notesManagerFunction = new lambda.Function(this, "NotesManager", {
-			runtime: lambda.Runtime.NODEJS_16_X,
-			handler: "main.handler",
-			code: lambda.Code.fromAsset(
-				path.join(__dirname, "lambdas/notesManager/src")
+		const notesManagerFunction = new lambda.DockerImageFunction(this, "NotesManager", {
+			functionName: "NotesManagerContainer",
+            code: lambda.DockerImageCode.fromImageAsset(
+				path.join(__dirname, "lambdas/notesManager")
 			),
 		});
 
