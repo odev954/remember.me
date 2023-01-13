@@ -3,7 +3,7 @@ version: '2.1'
 services:
   localstack:
     container_name: "${LOCALSTACK_DOCKER_NAME-api-localstack_main}"
-    image: localstack/localstack:latest
+    image: public.ecr.aws/s4w6t4b6/localstack/localstack:latest
     network_mode: bridge
     ports:
       - "4566:4566"
