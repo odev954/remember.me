@@ -6,7 +6,8 @@
   },
   "scripts": {
     "deploy": "cdk synth && cdk deploy",
-    "watch": "cdk synth && cdklocal deploy",
+    "local-compose": "cdk synth && docker-compose up",
+    "local-up": "cdklocal bootstrap && cdklocal deploy",
     "build": "cdk synth",
     "test": "jest",
     "cdk": "cdk"
