@@ -1,30 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import Note from './common/note';
 import * as queries from './queries';
-import * as aws from 'aws-sdk';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { Result } from './common/result';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
 @Injectable()
 export class AppService {
-  private database: aws.DynamoDB.DocumentClient;
+  private database: DynamoDBClient;
 
   public constructor() {
-    this.database = new aws.DynamoDB.DocumentClient();
+    this.database = new DynamoDBClient({});
   }
 
   async getNotes(): Promise<Result<Note[]>> {
-    return queries.getNotes(this.database);
+    console.info(`GET NOTES`);
+    return queries.getNotes(DynamoDBDocumentClient.from(this.database));
   }
 
   async createNote(note: Note): Promise<Result> {
-    return queries.createNote(this.database, note);
+    console.info(`CREATE NOTE: ${JSON.stringify(note, null, 2)}`);
+    return queries.createNote(DynamoDBDocumentClient.from(this.database), note);
   }
 
   async updateNote(note: Note): Promise<Result> {
-    return queries.updateNote(this.database, note);
+    console.info(`UPDATE NOTE: ${JSON.stringify(note, null, 2)}`);
+    return queries.updateNote(DynamoDBDocumentClient.from(this.database), note);
   }
 
   async deleteNote(noteId: string): Promise<Result> {
-    return queries.deleteNote(this.database, noteId);
+    console.info(`DELETE NOTE: ${noteId}`);
+    return queries.deleteNote(
+      DynamoDBDocumentClient.from(this.database),
+      noteId,
+    );
   }
 }

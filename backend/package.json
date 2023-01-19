@@ -24,6 +24,8 @@
   "dependencies": {
     "@aws-cdk/aws-apigateway": "^1.186.1",
     "@aws-cdk/aws-appsync": "^1.186.1",
+    "@aws-sdk/client-dynamodb": "^3.252.0",
+    "@aws-sdk/lib-dynamodb": "^3.252.0",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21"
   }
