@@ -39,24 +39,25 @@ export default class AppStack extends Stack {
 
 		rest.root.addMethod("ANY");
 
-		const notes = rest.root.addResource("notes");
+		const notesRoute = rest.root.addResource("notes");
+		const itemRoute = notesRoute.addResource("{id}");
 
-		notes.addMethod(
+		notesRoute.addMethod(
 			"GET",
 			new apigateway.LambdaIntegration(notesManagerFunction)
 		);
 
-		notes.addMethod(
+		itemRoute.addMethod(
 			"PUT",
 			new apigateway.LambdaIntegration(notesManagerFunction)
 		);
 
-		notes.addMethod(
+		notesRoute.addMethod(
 			"POST",
 			new apigateway.LambdaIntegration(notesManagerFunction)
 		);
 
-		notes.addMethod(
+		itemRoute.addMethod(
 			"DELETE",
 			new apigateway.LambdaIntegration(notesManagerFunction)
 		);
